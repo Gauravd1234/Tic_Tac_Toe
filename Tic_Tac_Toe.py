@@ -36,10 +36,11 @@ def isWin(po, le):
 
 
 def player1_move():
-    create_board()
-    player_place = int(input("Where do you want to put the marker?: "))
     print("\n")
     print("PLAYER 1 TURN")
+    print("\n")
+    create_board()
+    player_place = int(input("Where do you want to put the marker?: "))
     if " " not in po:
         pass
     elif po[player_place - 1] != " ":
@@ -56,11 +57,12 @@ def player1_move():
 
 
 def player2_move():
-    create_board()
-    player_place = int(input("Where do you want to put the marker?: "))
     print("\n")
     print("PLAYER 2 TURN")
-    
+    print("\n")
+    create_board()
+    player_place = int(input("Where do you want to put the marker?: "))
+
     if " " not in po:
         pass
     elif po[player_place - 1] != " ":
