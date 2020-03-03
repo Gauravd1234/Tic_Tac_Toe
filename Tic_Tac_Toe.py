@@ -1,88 +1,86 @@
 import sys
 
-po = [[" ", " ", " "],
-      [" ", " ", " "],
-      [" ", " ", " "]]
+po = [" "] * 9
 
 
-def create_board(board):
+def create_board():
     print("\n")
-    print(board[0][0] + "  | " + board[0][1] + " | " + board[0][2])
+    print(po[0] + "  | " + po[1] + " | " + po[2])
     print(" - " + "+" + " - " + "+" + " - ")
-    print(board[1][0] + "  | " + board[1][1] + " | " + board[1][2])
+    print(po[3] + "  | " + po[4] + " | " + po[5])
     print(" - " + "+" + " - " + "+" + " - ")
-    print(board[2][0] + "  | " + board[2][1] + " | " + board[2][2])
+    print(po[6] + "  | " + po[7] + " | " + po[8])
     print("\n")
 
 
-def check_current_state(board):
-    winner = None
-    for x in range(len(board[0])):                              # Checks all the columns
-        if board[x][0] == board[x][1] == board[x][2]:
-            winner = board[x][0]
+def isWin(po, le):
+    if po[0] == po[1] == po[2] == le:  # The top row
+        return True
 
-    for i in range(len(board[0])):                              # Checks all the rows
-        if board[0][i] == board[1][i] == board[2][i]:
-            winner = board[0][i]
+    if po[0] == po[3] == po[6] == le:  # The first column
+        return True
 
-    if board[0][0] == board[1][1] == board[2][2]:               # Checks the top-left to bottom right diagonal
-        winner = board[0][0]
+    if po[0] == po[4] == po[8] == le:  # The diagonal from top-left to bottom-right
+        return True
 
-    if board[0][2] == board[x][1] == board[2][0]:               # Checks the top-right to bottom-left diagonal
-        winner = board[2][0]
+    if po[2] == po[5] == po[8] == le:  # The last column
+        return True
 
-    return winner
+    if po[1] == po[4] == po[7] == le:  # The middle column
+        return True
+
+    if po[3] == po[4] == po[5] == le:  # The middle row
+        return True
+
+    if po[6] == po[7] == po[8] == le:  # The bottom row
+        return True
 
 
-moves_list = {1: [0, 0], 2: [0, 1], 3: [0, 2],
-              4: [1, 0], 5: [1, 1], 6: [1, 2],
-              7: [2, 0], 8: [2, 1], 9: [2, 2]}
-
-
-def player1_move(board):
+def player1_move():
     print("\n")
     print("PLAYER 1 TURN")
     print("\n")
-    create_board(board)
+    create_board()
     player_place = int(input("Where do you want to put the marker?: "))
-    row, col = moves_list[player_place]
-
-    if board[row][col] != " ":
-        print("Space already occupied!")
-        player1_move(board)
+    if " " not in po:
+        pass
+    elif po[player_place - 1] != " ":
+        print("Space already occupied")
+        player1_move()
     else:
-        board[row][col] = "X"
+        po[player_place - 1] = "X"
+        if isWin(po, "X"):
+            print("\n")
+            print("PLAYER 1 WINS!!!")
+            create_board()
+            sys.exit()
 
-    if check_current_state(board) == "X":
-        print("\n")
-        print("PLAYER 1 WINS!!!")
-        create_board(board)
-        sys.exit()
 
-
-def player2_move(board):
+def player2_move():
     print("\n")
     print("PLAYER 2 TURN")
     print("\n")
-    create_board(board)
+    create_board()
     player_place = int(input("Where do you want to put the marker?: "))
-    row, col = moves_list[player_place]
 
-    if board[row][col] != " ":
-        print("Space already occupied!")
-        player1_move(board)
+    if " " not in po:
+        pass
+    elif po[player_place - 1] != " ":
+        print("Space already occupied")
+        player2_move()
     else:
-        board[row][col] = "O"
-
-    if check_current_state(board) == "O":
-        print("\n")
-        print("PLAYER 2 WINS!!!")
-        create_board(board)
-        sys.exit()
-
-
-while " " not in po:
-    player1_move(po)
-    player2_move(po)
+        po[player_place - 1] = "O"
+        if isWin(po, "O"):
+            print("\n")
+            print("PLAYER 2 WINS!!!")
+            create_board()
+            sys.exit()
 
 
+while " " in po:
+    player1_move()
+    player2_move()
+
+create_board()
+print("\n")
+print("IT'S A DRAW!!!")
